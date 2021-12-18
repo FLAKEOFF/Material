@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище MaterialsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AgentPriorityHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="AgentID" Type="int" Nullable="false" />
+          <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+          <Property Name="PriorutyValue" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Agents">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="150" />
+          <Property Name="AgentTypeID" Type="nvarchar" MaxLength="49" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="INN" Type="nvarchar" MaxLength="49" Nullable="false" />
+          <Property Name="KPP" Type="nvarchar" MaxLength="49" Nullable="false" />
+          <Property Name="DirectorName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Logo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Priority" Type="nvarchar" MaxLength="49" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AgentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="49" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="49" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="49" Nullable="false" />
+          <Property Name="TypeMaterial" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="49" />
+          <Property Name="Price" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Count" Type="int" Nullable="false" />
+          <Property Name="MinCount" Type="int" Nullable="false" />
+          <Property Name="CountInPackage" Type="int" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="nvarchar" MaxLength="49" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialCountHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="MaterialID" Type="int" Nullable="false" />
+          <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialSuplier">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" Nullable="false" />
+          <Property Name="SuplierID" Type="int" />
+        </EntityType>
+        <EntityType Name="MaterialType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="49" Nullable="false" />
+          <Property Name="DeferentPrecent" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="INN" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="QualityRating" Type="int" />
+          <Property Name="SupplierType" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_AgentPriorityHistory_Agents">
+          <End Role="Agents" Type="Self.Agents" Multiplicity="1" />
+          <End Role="AgentPriorityHistory" Type="Self.AgentPriorityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgentPriorityHistory">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentType_Agents">
+          <End Role="Agents" Type="Self.Agents" Multiplicity="1" />
+          <End Role="AgentType" Type="Self.AgentType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgentType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialCountHistory_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="MaterialCountHistory" Type="Self.MaterialCountHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialCountHistory">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialSuplier_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="MaterialSuplier" Type="Self.MaterialSuplier" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialSuplier">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialSuplier_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="MaterialSuplier" Type="Self.MaterialSuplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialSuplier">
+              <PropertyRef Name="SuplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialType_Material">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="MaterialType" Type="Self.MaterialType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MaterialsModelContainer">
+          <EntitySet Name="AgentPriorityHistory" EntityType="Self.AgentPriorityHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agents" EntityType="Self.Agents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AgentType" EntityType="Self.AgentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialCountHistory" EntityType="Self.MaterialCountHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialSuplier" EntityType="Self.MaterialSuplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialType" EntityType="Self.MaterialType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AgentPriorityHistory_Agents" Association="Self.FK_AgentPriorityHistory_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="AgentPriorityHistory" EntitySet="AgentPriorityHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentType_Agents" Association="Self.FK_AgentType_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="AgentType" EntitySet="AgentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialCountHistory_Material" Association="Self.FK_MaterialCountHistory_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialCountHistory" EntitySet="MaterialCountHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialSuplier_Material" Association="Self.FK_MaterialSuplier_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialSuplier" EntitySet="MaterialSuplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialSuplier_Supplier" Association="Self.FK_MaterialSuplier_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="MaterialSuplier" EntitySet="MaterialSuplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialType_Material" Association="Self.FK_MaterialType_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialType" EntitySet="MaterialType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MaterialsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MaterialsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AgentPriorityHistory" EntityType="MaterialsModel.AgentPriorityHistory" />
+          <EntitySet Name="Agents" EntityType="MaterialsModel.Agents" />
+          <EntitySet Name="AgentType" EntityType="MaterialsModel.AgentType" />
+          <EntitySet Name="Material" EntityType="MaterialsModel.Material" />
+          <EntitySet Name="MaterialCountHistory" EntityType="MaterialsModel.MaterialCountHistory" />
+          <EntitySet Name="MaterialSuplier" EntityType="MaterialsModel.MaterialSuplier" />
+          <EntitySet Name="MaterialType" EntityType="MaterialsModel.MaterialType" />
+          <EntitySet Name="Supplier" EntityType="MaterialsModel.Supplier" />
+          <AssociationSet Name="FK_AgentPriorityHistory_Agents" Association="MaterialsModel.FK_AgentPriorityHistory_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="AgentPriorityHistory" EntitySet="AgentPriorityHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentType_Agents" Association="MaterialsModel.FK_AgentType_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="AgentType" EntitySet="AgentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialCountHistory_Material" Association="MaterialsModel.FK_MaterialCountHistory_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialCountHistory" EntitySet="MaterialCountHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialSuplier_Material" Association="MaterialsModel.FK_MaterialSuplier_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialSuplier" EntitySet="MaterialSuplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialType_Material" Association="MaterialsModel.FK_MaterialType_Material">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="MaterialType" EntitySet="MaterialType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialSuplier_Supplier" Association="MaterialsModel.FK_MaterialSuplier_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="MaterialSuplier" EntitySet="MaterialSuplier" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AgentPriorityHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="AgentID" Type="Int32" Nullable="false" />
+          <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PriorutyValue" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agents" Relationship="MaterialsModel.FK_AgentPriorityHistory_Agents" FromRole="AgentPriorityHistory" ToRole="Agents" />
+        </EntityType>
+        <EntityType Name="Agents">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="AgentTypeID" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="INN" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <Property Name="KPP" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <Property Name="DirectorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Logo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AgentPriorityHistory" Relationship="MaterialsModel.FK_AgentPriorityHistory_Agents" FromRole="Agents" ToRole="AgentPriorityHistory" />
+          <NavigationProperty Name="AgentType" Relationship="MaterialsModel.FK_AgentType_Agents" FromRole="Agents" ToRole="AgentType" />
+        </EntityType>
+        <EntityType Name="AgentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="49" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agents" Relationship="MaterialsModel.FK_AgentType_Agents" FromRole="AgentType" ToRole="Agents" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <Property Name="TypeMaterial" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="49" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Count" Type="Int32" Nullable="false" />
+          <Property Name="MinCount" Type="Int32" Nullable="false" />
+          <Property Name="CountInPackage" Type="Int32" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MaterialCountHistory" Relationship="MaterialsModel.FK_MaterialCountHistory_Material" FromRole="Material" ToRole="MaterialCountHistory" />
+          <NavigationProperty Name="MaterialSuplier" Relationship="MaterialsModel.FK_MaterialSuplier_Material" FromRole="Material" ToRole="MaterialSuplier" />
+          <NavigationProperty Name="MaterialType" Relationship="MaterialsModel.FK_MaterialType_Material" FromRole="Material" ToRole="MaterialType" />
+        </EntityType>
+        <EntityType Name="MaterialCountHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="MaterialID" Type="Int32" Nullable="false" />
+          <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Material" Relationship="MaterialsModel.FK_MaterialCountHistory_Material" FromRole="MaterialCountHistory" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="MaterialSuplier">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" />
+          <Property Name="SuplierID" Type="Int32" />
+          <NavigationProperty Name="Material" Relationship="MaterialsModel.FK_MaterialSuplier_Material" FromRole="MaterialSuplier" ToRole="Material" />
+          <NavigationProperty Name="Supplier" Relationship="MaterialsModel.FK_MaterialSuplier_Supplier" FromRole="MaterialSuplier" ToRole="Supplier" />
+        </EntityType>
+        <EntityType Name="MaterialType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="49" FixedLength="false" Unicode="true" />
+          <Property Name="DeferentPrecent" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Material" Relationship="MaterialsModel.FK_MaterialType_Material" FromRole="MaterialType" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="INN" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="QualityRating" Type="Int32" />
+          <Property Name="SupplierType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MaterialSuplier" Relationship="MaterialsModel.FK_MaterialSuplier_Supplier" FromRole="Supplier" ToRole="MaterialSuplier" />
+        </EntityType>
+        <Association Name="FK_AgentPriorityHistory_Agents">
+          <End Type="MaterialsModel.Agents" Role="Agents" Multiplicity="1" />
+          <End Type="MaterialsModel.AgentPriorityHistory" Role="AgentPriorityHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgentPriorityHistory">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentType_Agents">
+          <End Type="MaterialsModel.Agents" Role="Agents" Multiplicity="1" />
+          <End Type="MaterialsModel.AgentType" Role="AgentType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgentType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialCountHistory_Material">
+          <End Type="MaterialsModel.Material" Role="Material" Multiplicity="1" />
+          <End Type="MaterialsModel.MaterialCountHistory" Role="MaterialCountHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialCountHistory">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialSuplier_Material">
+          <End Type="MaterialsModel.Material" Role="Material" Multiplicity="1" />
+          <End Type="MaterialsModel.MaterialSuplier" Role="MaterialSuplier" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialSuplier">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialType_Material">
+          <End Type="MaterialsModel.Material" Role="Material" Multiplicity="1" />
+          <End Type="MaterialsModel.MaterialType" Role="MaterialType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialSuplier_Supplier">
+          <End Type="MaterialsModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+          <End Type="MaterialsModel.MaterialSuplier" Role="MaterialSuplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialSuplier">
+              <PropertyRef Name="SuplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MaterialsModelContainer" CdmEntityContainer="MaterialsEntities">
+          <EntitySetMapping Name="AgentPriorityHistory">
+            <EntityTypeMapping TypeName="MaterialsModel.AgentPriorityHistory">
+              <MappingFragment StoreEntitySet="AgentPriorityHistory">
+                <ScalarProperty Name="PriorutyValue" ColumnName="PriorutyValue" />
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agents">
+            <EntityTypeMapping TypeName="MaterialsModel.Agents">
+              <MappingFragment StoreEntitySet="Agents">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="DirectorName" ColumnName="DirectorName" />
+                <ScalarProperty Name="KPP" ColumnName="KPP" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="AgentTypeID" ColumnName="AgentTypeID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgentType">
+            <EntityTypeMapping TypeName="MaterialsModel.AgentType">
+              <MappingFragment StoreEntitySet="AgentType">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Material">
+            <EntityTypeMapping TypeName="MaterialsModel.Material">
+              <MappingFragment StoreEntitySet="Material">
+                <ScalarProperty Name="UnitOfMeasurement" ColumnName="UnitOfMeasurement" />
+                <ScalarProperty Name="CountInPackage" ColumnName="CountInPackage" />
+                <ScalarProperty Name="MinCount" ColumnName="MinCount" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="TypeMaterial" ColumnName="TypeMaterial" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialCountHistory">
+            <EntityTypeMapping TypeName="MaterialsModel.MaterialCountHistory">
+              <MappingFragment StoreEntitySet="MaterialCountHistory">
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialSuplier">
+            <EntityTypeMapping TypeName="MaterialsModel.MaterialSuplier">
+              <MappingFragment StoreEntitySet="MaterialSuplier">
+                <ScalarProperty Name="SuplierID" ColumnName="SuplierID" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialType">
+            <EntityTypeMapping TypeName="MaterialsModel.MaterialType">
+              <MappingFragment StoreEntitySet="MaterialType">
+                <ScalarProperty Name="DeferentPrecent" ColumnName="DeferentPrecent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supplier">
+            <EntityTypeMapping TypeName="MaterialsModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="SupplierType" ColumnName="SupplierType" />
+                <ScalarProperty Name="QualityRating" ColumnName="QualityRating" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

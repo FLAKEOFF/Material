@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e0f6a8b783964aa895cdc714e0eec5e7" Name="Diagram1">
+        <EntityTypeShape EntityType="MaterialsModel.AgentPriorityHistory" Width="1.5" PointX="8" PointY="7" />
+        <EntityTypeShape EntityType="MaterialsModel.Agents" Width="1.5" PointX="5.75" PointY="7.5" />
+        <EntityTypeShape EntityType="MaterialsModel.AgentType" Width="1.5" PointX="8" PointY="9.75" />
+        <EntityTypeShape EntityType="MaterialsModel.Material" Width="1.5" PointX="0.75" PointY="2.875" />
+        <EntityTypeShape EntityType="MaterialsModel.MaterialCountHistory" Width="1.5" PointX="3" PointY="7.5" />
+        <EntityTypeShape EntityType="MaterialsModel.MaterialSuplier" Width="1.5" PointX="6" PointY="3.75" />
+        <EntityTypeShape EntityType="MaterialsModel.MaterialType" Width="1.5" PointX="3" PointY="2.375" />
+        <EntityTypeShape EntityType="MaterialsModel.Supplier" Width="1.5" PointX="3.75" PointY="10.375" />
+        <AssociationConnector Association="MaterialsModel.FK_AgentPriorityHistory_Agents" />
+        <AssociationConnector Association="MaterialsModel.FK_AgentType_Agents" />
+        <AssociationConnector Association="MaterialsModel.FK_MaterialCountHistory_Material" />
+        <AssociationConnector Association="MaterialsModel.FK_MaterialSuplier_Material" />
+        <AssociationConnector Association="MaterialsModel.FK_MaterialType_Material" />
+        <AssociationConnector Association="MaterialsModel.FK_MaterialSuplier_Supplier" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
